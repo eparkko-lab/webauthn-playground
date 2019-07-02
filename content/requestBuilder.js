@@ -109,7 +109,7 @@ function buildCreateRequest() {
         if (!requestBuilder.authenticatorSelection) {
             requestBuilder.authenticatorSelection = {}
         }
-        requestBuilder.authenticatorSelection.requireResidentKey = Boolean(requireResidentKey);
+        requestBuilder.authenticatorSelection.requireResidentKey = JSON.parse(requireResidentKey);
     }
 
     if (timeout.valueOf() != "null (default)") {
