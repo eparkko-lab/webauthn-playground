@@ -1,30 +1,24 @@
-function getRegisterRequest() {
-  var Request = document.getElementById("createBuilderArea").value;
-  console.log(Request);
-  return JSON.parse(Request);
-}
-
-function getAuthenticateRequest() {
-  var Request = document.getElementById("getBuilderArea").value;
-  console.log(Request);
+function getWebAuthnRequest(builderArea) {
+  var Request = document.getElementById(builderArea).value;
   return JSON.parse(Request);
 }
 
 function authenticate() {
-  webAuthnRequest = getAuthenticateRequest();
-  console.log('authenticate', webAuthnRequest)
-  historyArea = document.getElementById("historyArea")
-  //document.getElementById("historyArea").innerHTML = JSON.stringify(webAuthnRequest) + "\n----\n" + document.getElementById("historyArea").value;
+  webAuthnRequest = getWebAuthnRequest("getBuilderArea");
+  updatedUrl=buildURL(webAuthnRequest, "get")
+  resetURL(updatedUrl);
+
+  var webAuthnResponseDiv = document.getElementById("webauthGetResponse");
 
   getAssertion(webAuthnRequest)
     .then(function (getAssertionResponse) {
       console.log(getAssertionResponse);
-      var webAuthnResponseDiv = document.getElementById("webauthGetResponse");
-      webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(getAssertionResponse),null,2);
-      historyArea.innerHTML = "\n------Get Request------\n\n" + JSON.stringify(webAuthnRequest) + "\n\n---Get Response---\n\n" + JSON.stringify(responseToObject(getAssertionResponse)) + "\n------\n" + document.getElementById("historyArea").value;;
+      webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(getAssertionResponse), null, 2);
+      writeHistory("get", webAuthnRequest, JSON.stringify(responseToObject(getAssertionResponse)),updatedUrl)
     })
     .catch(error => {
-      historyArea.innerHTML = "\n------Get Request------\n\n" + JSON.stringify(webAuthnRequest) + "\n***Get Error***\n" + error + "\n------\n" + document.getElementById("historyArea").value
+      webAuthnResponseDiv.innerHTML = error;
+      writeHistory("get", webAuthnRequest, error, updatedUrl)
       throw error;
     })
 }
@@ -54,31 +48,47 @@ function decodePublicKeyCredentialRequestOptions(webAuthnRequest) {
 
   webAuthnRequestDiv.innerHTML = JSON.stringify(publicKeyCredentialRequestOptions);
 
-
   return publicKeyCredentialRequestOptions;
 }
 
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 function register() {
-  webAuthnRequest = getRegisterRequest();
-  console.log('register', webAuthnRequest)
+  webAuthnRequest = getWebAuthnRequest("createBuilderArea");
+  updatedUrl=buildURL(webAuthnRequest, "create")
+  resetURL(updatedUrl)
 
   historyArea = document.getElementById("historyArea")
-  //historyArea.innerHTML = "\n----Register Request---\n" + JSON.stringify(webAuthnRequest) + "------" + document.getElementById("historyArea").value;
+  var webAuthnResponseDiv = document.getElementById("webauthCreateResponse");
 
   createCredential(webAuthnRequest)
     .then(function (createCredentialResponse) {
       console.log("createCredential:" + createCredentialResponse);
-      var webAuthnResponseDiv = document.getElementById("webauthCreateResponse");
-      webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(createCredentialResponse),null,2);
-      historyArea.innerHTML = "\n-------Create Request------\n\n" + JSON.stringify(webAuthnRequest) + "\n\n---Create Response---\n\n" + JSON.stringify(responseToObject(createCredentialResponse)) + "\n------\n" + document.getElementById("historyArea").value;;
+      webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(createCredentialResponse), null, 2);
+      writeHistory("create", webAuthnRequest, JSON.stringify(responseToObject(createCredentialResponse)), updatedUrl)
     })
     .catch(error => {
       console.log("error:" + error);
-      historyArea.innerHTML = "\n------Create Request------\n\n" + JSON.stringify(webAuthnRequest) + "\n***Create Error***\n" + error + "\n------\n" + document.getElementById("historyArea").value
+      webAuthnResponseDiv.innerHTML = error;
+      writeHistory("create", webAuthnRequest, error, updatedUrl)
       throw error;
     })
+}
+
+function writeHistory(historyType, request, response,url) {
+  historyArea = document.getElementById("historyArea")
+  historyArea.innerHTML =
+    "\n-------"
+    + historyType
+    + " Request--" + Date() + "------------------------\n"
+    + "url:\n "
+    + url 
+    + "\n\nrequest:\n "
+    + JSON.stringify(request)
+    + "\n\nresponse:\n "
+    + response
+    + "\n\n---------------------------------\n"
+    + historyArea.value;
 }
 
 function createCredential(request) {
@@ -103,7 +113,7 @@ function decodePublicKeyCredentialCreationOptions(request) {
       challenge: toByteArray(request.challenge),
       excludeCredentials
     });
-    
+
   var webAuthnRequestDiv = document.getElementById("webauthCreateRequest");
 
   webAuthnRequestDiv.innerHTML = JSON.stringify(publicKeyCredentialCreationOptions);

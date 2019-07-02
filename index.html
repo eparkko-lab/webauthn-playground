@@ -9,7 +9,7 @@
         <link href="./content/styles.css" rel="stylesheet" />
 </head>
 
-<body>
+<body onload="setFromQueryParams()">
 
         <p>WebAuthn API Playground</p>
 
@@ -27,7 +27,7 @@
                 <table border="1">
                         <tr style="background-color:#1f2833; color:#45a29e">
                                 <td>1. Pick your WebAuthn Request Options</td>
-                                <td>2. Build and manipulate your request.</td>
+                                <td>2. Build your base JSON request. Modify your request. Call the authenticator.</td>
                                 <td>3. See your WebAuthn Response.</td>
                         </tr>
                         <td valign="top">
@@ -43,7 +43,7 @@
                                 <br>RP ID</br>
                                 <form>
                                         <input style="background-color: #c5c6c7" type="text" name="rpIdGetMenu"
-                                                value="eparkko-lab.github.io">
+                                                value="localhost">
                                 </form>
 
                                 <br>User Verification</br>
@@ -84,22 +84,20 @@
                         <td valign="top">
                                 <button onclick="buildGetRequest()">buildGetRequest</button>
                                 <button onclick="authenticate()">Authenticate</button>
+                                <br></br>
                                 <br>Here is your webauthn request </br>
 
-                                <textarea rows=50 cols=75 id="getBuilderArea"></textarea>
-                        </td>
-                        <td valign="top">
+                                <textarea rows=35 cols=65 id="getBuilderArea"></textarea>
                                 <button onclick="hide('webauthGetRequest')">Click Here To Show/Hide Encoded
                                         WebAuthn
                                         Request</button>
-
-                                <div id="webauthGetRequest" style="display:none"><br>Encoded WebAuthn
-                                        Request</br>
-                                </div>
-
+                                <textarea readonly  rows=4 cols=65 id="webauthGetRequest"
+                                        style="display:none">Encoded WebAuthn Request</textarea>
+                        </td>
+                        <td valign="top">
                                 <br></br>
                                 <br>WebAuthn Response</br>
-                                <textarea rows=50 cols=75 id="webauthGetResponse"></textarea>
+                                <textarea readonly rows=35 cols=65 id="webauthGetResponse"></textarea>
                         </td>
                         </tr>
                 </table>
@@ -111,7 +109,7 @@
                 <table border="1">
                         <tr style="background-color:#1f2833; color:#45a29e">
                                 <td>1. Pick your WebAuthn Request Options</td>
-                                <td>2. Build and manipulate your request.</td>
+                                <td>2. Build your base JSON request. Modify your request. Call the authenticator.</td>
                                 <td>3. See your WebAuthn Response.</td>
                         </tr>
                         <tr>
@@ -127,7 +125,7 @@
 
                                         <br>RP ID</br>
                                         <form>
-                                                <input type="text" name="rpIdCreateMenu" value="eparkko-lab.github.io"
+                                                <input type="text" name="rpIdCreateMenu" value="localhost"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
@@ -169,28 +167,9 @@
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-
-                                        <br>allowCredentialId</br>
-                                        <form>
-                                                <input type="text" name="allowCredentialsIdCreateMenu" value=""
-                                                        style="background-color: #c5c6c7">
-                                        </form>
-
-                                        <br>Allow Credential Transports</br>
-                                        <form>
-                                                <select name="allowCredentialsTransportsCreateMenu" multiple
-                                                        style="background-color: #c5c6c7">
-                                                        <option>nfc</option>
-                                                        <option>usb</option>
-                                                        <option>ble</option>
-                                                        <option>internal</option>
-                                                        <option selected>null (default)</option>
-                                                </select>
-                                        </form>
-
                                         <br>Attestation</br>
                                         <form>
-                                                <select name="attestationCreateMenu" multiple
+                                                <select name="attestationCreateMenu"
                                                         style="background-color: #c5c6c7">
                                                         <option selected>direct</option>
                                                         <option>indirect</option>
@@ -238,22 +217,21 @@
                                 <td valign="top">
                                         <button onclick="buildCreateRequest()">buildCreateRequest</button>
                                         <button onclick="register()">Register</button>
+                                        <br></br>
                                         <br>Here is your webauthn request </br>
 
-                                        <textarea rows=50 cols=75 id="createBuilderArea"></textarea>
+                                        <textarea rows=35 cols=65 id="createBuilderArea"></textarea>
+                                        <button onclick="hide('webauthCreateRequest')">Click Here To Show/Hide Encoded
+                                                WebAuthn Request</button>
+
+                                        <textarea readonly rows=4 cols=65 id="webauthCreateRequest" style="display:none">Encoded WebAuthn Request
+                                        </textarea>
+
                                 </td>
                                 <td valign="top">
-                                        <button onclick="hide('webauthCreateRequest')">Click Here To Show/Hide Encoded
-                                                WebAuthn
-                                                Request</button>
-
-                                        <div id="webauthCreateRequest" style="display:none"><br>Encoded WebAuthn
-                                                Request</br>
-                                        </div>
-
                                         <br></br>
                                         <br>WebAuthn Response</br>
-                                        <textarea rows=50 cols=75 id="webauthCreateResponse"></textarea>
+                                        <textarea readonly rows=35 cols=65 id="webauthCreateResponse"></textarea>
                                 </td>
 
                         </tr>
@@ -263,21 +241,11 @@
 
         <div style="background-color:#0b0c10">
                 <br>
-                <button onclick="hide('samples')">Click Here To Show/Hide Samples</button>
-                </br>
-
-                <div id="samples" style="display:none;color:#66fcf1">
-                        <br>
-                        {"challenge":"cZi2ThKn1BNk1vhF3VUeCT1c4L9o1WoH9ynNMBNe8Wc","rpId":"localhost","userVerification":"preferred","extensions":{"appid":"https://localhost:3000"}}</br>
-                        <br>
-                        {"challenge":"MC4wMDk0OTQ2NTMwODMyNMC4xODU5ODE4OTM2Mzc2M","rpid":"localhost","userVerification":"preferred","timeout":"15000","allowCredentials":[{"type":"public-key","transports":["nfc","ble","internal"],"id":"sVrhyibg791KNdlzr0D5zA"}]}</br>
-                </div>
-                <br>
                 <button onclick="hide('history')">Click Here To Show/Hide History</button>
                 </br>
 
                 <div id="history" style="display:none">
-                        <textarea style="background-color:#0b0c10;color:#66fcf1" rows=4 cols=200
+                        <textarea readonly style="background-color:#0b0c10;color:#66fcf1" rows=10 cols=160
                                 id="historyArea"></textarea>
                 </div>
         </div>
