@@ -66,13 +66,18 @@ function register() {
       console.log("createCredential:" + createCredentialResponse);
       webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(createCredentialResponse), null, 2);
       writeHistory("create", webAuthnRequest, JSON.stringify(responseToObject(createCredentialResponse)), updatedUrl)
+      localStorage.setItem('registeredCredentialId', createCredentialResponse.id)
+      console.log(createCredentialResponse.id)
+      addCredentialIdToOptions("excludeCredentialsIdCreateMenu", createCredentialResponse.id)
     })
+    
     .catch(error => {
       console.log("error:" + error);
       webAuthnResponseDiv.innerHTML = error;
       writeHistory("create", webAuthnRequest, error, updatedUrl)
       throw error;
     })
+
 }
 
 function writeHistory(historyType, request, response,url) {

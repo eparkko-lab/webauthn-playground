@@ -34,7 +34,6 @@ function buildGetRequest() {
 
     if (allowCredentialsId.valueOf() != "") {
 
-
         requestBuilder.allowCredentials = []
         requestBuilder.allowCredentials[0] = {}
         requestBuilder.allowCredentials[0].type = 'public-key'
@@ -53,7 +52,7 @@ function buildGetRequest() {
     }
 
     //Encode the request and put it in the query param.
-    updatedUrl=buildURL(requestBuilder, "get")
+    updatedUrl = buildURL(requestBuilder, "get")
     resetURL(updatedUrl)
 
     //Pretty print it and put it in the text area. 
@@ -71,7 +70,8 @@ function buildCreateRequest() {
     var timeout = document.getElementsByName("timeoutCreateMenu")[0].value;
     var algorithm = document.getElementsByName("algorithmCreateMenu")[0].value;
     var attestation = document.getElementsByName("attestationCreateMenu")[0].value;
-    var excludeCredentials = document.getElementsByName("excludeCredentialsCreateMenu")[0].value;
+    var excludeCredentialsId = document.getElementsByName("excludeCredentialsIdCreateMenu")[0];
+    var excludeCredentialsTransports = document.getElementsByName("excludeCredentialsTransportsCreateMenu")[0];
 
     var userId = document.getElementsByName("userIdCreateMenu")[0].value;
     var userName = document.getElementsByName("userNameCreateMenu")[0].value;
@@ -128,23 +128,40 @@ function buildCreateRequest() {
     requestBuilder.user.id = userId;
     requestBuilder.user.name = userName;
     requestBuilder.user.displayName = userDisplayName;
+    var transports = null
 
-    if (excludeCredentials.valueOf() != "null") {
+    //Process through the list of credential ids if "null" is NOT also selected
+    if (!testMultiSelect(excludeCredentialsId.selectedOptions, "null")) {
+
+        //Create an empty array for excludeCredentials transports
+        if (!testMultiSelect(excludeCredentialsTransports.selectedOptions, "null")) {
+            transports = [];
+            //Build a list of transports that we'll just apply to each credentialId so we don't make the options too confusing
+            for (i = 0; i < excludeCredentialsTransports.selectedOptions.length; i++) {
+                transports.push(excludeCredentialsTransports.selectedOptions[i].value)
+            }
+        }
+
         requestBuilder.excludeCredentials = []
-        requestBuilder.excludeCredentials[0] = {}
-        requestBuilder.excludeCredentials[0].type = "public-key"
-        requestBuilder.excludeCredentials[0].id = requestBuilder.user.id
-        requestBuilder.excludeCredentials[0].transports = [];
-        requestBuilder.excludeCredentials[0].transports[0] = "usb";
+        for (i = 0; i < excludeCredentialsId.selectedOptions.length; i++) {
+            requestBuilder.excludeCredentials[i] = {}
+            requestBuilder.excludeCredentials[i].type = 'public-key'
+            requestBuilder.excludeCredentials[i].id = excludeCredentialsId.selectedOptions[i].value;
+            if (transports) {
+                requestBuilder.excludeCredentials[i].transports = transports
+            }
+        }
     }
+
     //Encode the request and set the query param in the url.
-    updatedUrl=buildURL(requestBuilder, "create")
+    updatedUrl = buildURL(requestBuilder, "create")
     resetURL(updatedUrl)
 
     //Also pretty print the request and display it in the text area.
     document.getElementById("createBuilderArea").value = JSON.stringify(requestBuilder, null, 2)
 
 }
+
 
 function setFromQueryParams() {
     var url_string = window.location.href
@@ -163,7 +180,7 @@ function setInitialValues() {
     if (requestTypeParam == "get") {
         hide("getOptions")
         decodedwebauthnRequest = atob(webauthnRequestP);
-        document.getElementById("getBuilderArea").value = JSON.stringify(JSON.parse(decodedwebauthnRequest), null, 2)        
+        document.getElementById("getBuilderArea").value = JSON.stringify(JSON.parse(decodedwebauthnRequest), null, 2)
         document.getElementsByName("webAuthnRequestTypeMenu")[0].value = "get"
     } else if (requestTypeParam == "create") {
         hide("createOptions")
@@ -180,7 +197,8 @@ function resetURL(url) {
     window.history.replaceState({}, "   ", url);
 }
 
-function buildURL(requestJSON, requestType){
+
+function buildURL(requestJSON, requestType) {
     encodedRequestP = btoa(JSON.stringify(requestJSON))
     var url_string = window.location.href
     var url = new URL(url_string);

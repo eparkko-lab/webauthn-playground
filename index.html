@@ -13,7 +13,7 @@
 
         <p>WebAuthn API Playground</p>
 
-        <br>WebAuthn Request Type </br>
+        <br>WebAuthn Request Type 
         <form>
                 <select name="webAuthnRequestTypeMenu" style="background-color: #c5c6c7" onchange="displayOptions()">
                         <option></option>
@@ -21,7 +21,7 @@
                         <option>create</option>
                 </select>
         </form>
-        <br></br>
+        <br>
 
         <div id="getOptions" style="display:none;background-color:#45a29e;color:#1f2833">
                 <table border="1">
@@ -31,7 +31,7 @@
                                 <td>3. See your WebAuthn Response.</td>
                         </tr>
                         <td valign="top">
-                                GenerateRandomChallenge
+                                Create Random Challenge
                                 <form>
                                         <select style="background-color: #c5c6c7"
                                                 name="doGenerateRandomChallengeGetMenu">
@@ -40,36 +40,36 @@
                                         </select>
                                 </form>
 
-                                <br>RP ID</br>
+                                <br>RP ID
                                 <form>
                                         <input style="background-color: #c5c6c7" type="text" name="rpIdGetMenu"
                                                 value="localhost">
                                 </form>
 
-                                <br>User Verification</br>
+                                <br>User Verification
                                 <form>
                                         <select name="userVerificationGetMenu" style="background-color: #c5c6c7">
-                                                <option>preferred</option>
+                                                <option selected>preferred</option>
                                                 <option>required</option>
                                                 <option>discouraged</option>
-                                                <option>null (default)</option>
+                                                <option>null</option>
                                         </select>
                                 </form>
 
-                                <br>Timeout</br>
+                                <br>Timeout
                                 <form>
                                         <input type="text" name="timeoutGetMenu" value="15000"
                                                 style="background-color: #c5c6c7">
                                 </form>
 
 
-                                <br>allowCredentialId</br>
+                                <br>AllowCredential.Id
                                 <form>
                                         <input type="text" name="allowCredentialsIdGetMenu" value=""
                                                 style="background-color: #c5c6c7">
                                 </form>
 
-                                <br>Allow Credential Transports</br>
+                                <br>AllowCredential.Transports
                                 <form>
                                         <select name="allowCredentialsTransportsGetMenu" multiple
                                                 style="background-color: #c5c6c7">
@@ -77,26 +77,26 @@
                                                 <option>usb</option>
                                                 <option>ble</option>
                                                 <option>internal</option>
-                                                <option selected>null (default)</option>
+                                                <option selected>null</option>
                                         </select>
                                 </form>
                         </td>
                         <td valign="top">
                                 <button onclick="buildGetRequest()">buildGetRequest</button>
                                 <button onclick="authenticate()">Authenticate</button>
-                                <br></br>
-                                <br>Here is your webauthn request </br>
+                                <br>
+                                <br>Here is your webauthn request
 
                                 <textarea rows=35 cols=65 id="getBuilderArea"></textarea>
                                 <button onclick="hide('webauthGetRequest')">Click Here To Show/Hide Encoded
                                         WebAuthn
                                         Request</button>
-                                <textarea readonly  rows=4 cols=65 id="webauthGetRequest"
+                                <textarea readonly rows=4 cols=65 id="webauthGetRequest"
                                         style="display:none">Encoded WebAuthn Request</textarea>
                         </td>
                         <td valign="top">
-                                <br></br>
-                                <br>WebAuthn Response</br>
+                                <br>
+                                <br>WebAuthn Response
                                 <textarea readonly rows=35 cols=65 id="webauthGetResponse"></textarea>
                         </td>
                         </tr>
@@ -114,7 +114,7 @@
                         </tr>
                         <tr>
                                 <td valign="top">
-                                        GenerateRandomChallenge
+                                        Create Random Challenge
                                         <form>
                                                 <select name="doGenerateRandomChallengeCreateMenu"
                                                         style="background-color: #c5c6c7">
@@ -123,13 +123,13 @@
                                                 </select>
                                         </form>
 
-                                        <br>RP ID</br>
+                                        <br>RP ID
                                         <form>
                                                 <input type="text" name="rpIdCreateMenu" value="localhost"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-                                        <br>User Verification</br>
+                                        <br>User Verification
                                         <form>
                                                 <select name="userVerificationCreateMenu"
                                                         style="background-color: #c5c6c7">
@@ -140,7 +140,7 @@
                                                 </select>
                                         </form>
 
-                                        <br>Authenticator Attachment</br>
+                                        <br>Authenticator Attachment
                                         <form>
                                                 <select name="authenticatorAttachmentCreateMenu"
                                                         style="background-color: #c5c6c7">
@@ -151,7 +151,7 @@
                                         </form>
 
 
-                                        <br>Resident Key Required</br>
+                                        <br>Require Resident Key
                                         <form>
                                                 <select name="requireResidentKeyCreateMenu"
                                                         style="background-color: #c5c6c7">
@@ -161,16 +161,15 @@
                                                 </select>
                                         </form>
 
-                                        <br>Timeout</br>
+                                        <br>Timeout
                                         <form>
                                                 <input type="text" name="timeoutCreateMenu" value="15000"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-                                        <br>Attestation</br>
+                                        <br>Attestation
                                         <form>
-                                                <select name="attestationCreateMenu"
-                                                        style="background-color: #c5c6c7">
+                                                <select name="attestationCreateMenu" style="background-color: #c5c6c7">
                                                         <option selected>direct</option>
                                                         <option>indirect</option>
                                                         <option>none</option>
@@ -178,59 +177,71 @@
                                                 </select>
                                         </form>
 
-                                        <br>Algorithm</br>
+                                        <br>Algorithm
                                         <form>
                                                 <input type="text" name="algorithmCreateMenu" value="-7"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-                                        <br>UserName</br>
+                                        <br>User.Name
                                         <form>
-                                                <input type="text" name="userNameCreateMenu" value="Bobby@localhost.com"
+                                                <input type="text" name="userNameCreateMenu" value="Bobby@localhost"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-                                        <br>UserId</br>
+                                        <br>User.Id (userHandle)
                                         <form>
                                                 <input type="text" name="userIdCreateMenu" value="UZSL85T9AFC"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-                                        <br>UserDisplayName</br>
+                                        <br>User.DisplayName
                                         <form>
                                                 <input type="text" name="userDisplayNameCreateMenu" value="Bobby"
                                                         style="background-color: #c5c6c7">
                                         </form>
 
-                                        <br>ExcludeCredentials</br>
+                                        <br>ExcludeCredentials.Id(credentialId)
                                         <form>
-                                                <select name="excludeCredentialsCreateMenu" multiple
+                                                <select name="excludeCredentialsIdCreateMenu" multiple
                                                         style="background-color: #c5c6c7">
-                                                        <option>Bobby(with transport "USB")</option>
+                                                        <option>aaaaaaaaaaaaaaaaa</option>
+                                                        <option>${lastGeneratedId()}</option>
                                                         <option selected>null</option>
                                                 </select>
                                         </form>
 
-
+                                        <br>ExcludeCredentials.Transports
+                                        <form>
+                                                <select name="excludeCredentialsTransportsCreateMenu" multiple
+                                                        style="background-color: #c5c6c7">
+                                                        <option>nfc</option>
+                                                        <option>usb</option>
+                                                        <option>ble</option>
+                                                        <option>internal</option>
+                                                        <option selected>null</option>
+                                                </select>
+                                        </form>
 
                                 </td>
                                 <td valign="top">
                                         <button onclick="buildCreateRequest()">buildCreateRequest</button>
                                         <button onclick="register()">Register</button>
-                                        <br></br>
-                                        <br>Here is your webauthn request </br>
+                                        <br>
+                                        <br>Here is your webauthn request 
 
                                         <textarea rows=35 cols=65 id="createBuilderArea"></textarea>
                                         <button onclick="hide('webauthCreateRequest')">Click Here To Show/Hide Encoded
                                                 WebAuthn Request</button>
 
-                                        <textarea readonly rows=4 cols=65 id="webauthCreateRequest" style="display:none">Encoded WebAuthn Request
+                                        <textarea readonly rows=4 cols=65 id="webauthCreateRequest"
+                                                style="display:none">Encoded WebAuthn Request
                                         </textarea>
 
                                 </td>
                                 <td valign="top">
-                                        <br></br>
-                                        <br>WebAuthn Response</br>
+                                        <br>
+                                        <br>WebAuthn Response
                                         <textarea readonly rows=35 cols=65 id="webauthCreateResponse"></textarea>
                                 </td>
 
@@ -242,7 +253,7 @@
         <div style="background-color:#0b0c10">
                 <br>
                 <button onclick="hide('history')">Click Here To Show/Hide History</button>
-                </br>
+                
 
                 <div id="history" style="display:none">
                         <textarea readonly style="background-color:#0b0c10;color:#66fcf1" rows=10 cols=160

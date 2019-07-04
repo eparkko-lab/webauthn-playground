@@ -29,3 +29,27 @@ function displayOptions()
     }
 
 }
+
+function addCredentialIdToOptions(menu, credentialId)
+{
+  modifyMenu = document.getElementsByName(menu)[0];
+
+  if (!testMultiSelect(modifyMenu.options, credentialId)){
+    option = document.createElement("credentialId");
+    option.text = credentialId;
+    modifyMenu.options[modifyMenu.options.length] = new Option(credentialId, credentialId, false, false);
+    modifyMenu.options[1] = new Option("${lastGeneratedId("+credentialId+")}",credentialId, false, false);
+  }
+}
+
+
+function testMultiSelect(multiselect, teststring) {
+
+  for (i = 0; i < multiselect.length; i++) {
+      if (multiselect[i].value === teststring) {
+          return true;
+      }
+  }
+  return false;
+
+}
