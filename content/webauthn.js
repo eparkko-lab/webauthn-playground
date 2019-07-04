@@ -69,6 +69,7 @@ function register() {
       localStorage.setItem('registeredCredentialId', createCredentialResponse.id)
       console.log(createCredentialResponse.id)
       addCredentialIdToOptions("excludeCredentialsIdCreateMenu", createCredentialResponse.id)
+      addCredentialIdToOptions("allowCredentialsIdGetMenu", createCredentialResponse.id)
     })
     
     .catch(error => {

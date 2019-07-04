@@ -35,10 +35,9 @@ function addCredentialIdToOptions(menu, credentialId)
   modifyMenu = document.getElementsByName(menu)[0];
 
   if (!testMultiSelect(modifyMenu.options, credentialId)){
-    option = document.createElement("credentialId");
-    option.text = credentialId;
-    modifyMenu.options[modifyMenu.options.length] = new Option(credentialId, credentialId, false, false);
-    modifyMenu.options[1] = new Option("${lastGeneratedId("+credentialId+")}",credentialId, false, false);
+    wkCredentialId=credentialId.substring(0,4)+"..."+credentialId.substring(credentialId.length-4,credentialId.length);
+    modifyMenu.options[modifyMenu.options.length] = new Option(wkCredentialId, credentialId, false, false);
+    modifyMenu.options[1] = new Option("${lastGeneratedId("+wkCredentialId+")}",credentialId, false, false);
   }
 }
 

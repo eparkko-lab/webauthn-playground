@@ -7,8 +7,8 @@ function buildGetRequest() {
     var relyingPartyId = document.getElementsByName("rpIdGetMenu")[0].value;
     var userVerification = document.getElementsByName("userVerificationGetMenu")[0].value;
     var timeout = document.getElementsByName("timeoutGetMenu")[0].value;
-    var allowTransports = document.getElementsByName("allowCredentialsTransportsGetMenu")[0];
-    var allowCredentialsId = document.getElementsByName("allowCredentialsIdGetMenu")[0].value;
+    var allowCredentialsTransports = document.getElementsByName("allowCredentialsTransportsGetMenu")[0];
+    var allowCredentialsId = document.getElementsByName("allowCredentialsIdGetMenu")[0];
 
     if (doGenerateChallenge.valueOf() == "true") {
         //This is probably not crypotgraphically secure but just for demo purposes.  
@@ -30,26 +30,34 @@ function buildGetRequest() {
         requestBuilder.timeout = parseInt(timeout);
     }
 
-    transports = [];
+    var transports = null;
+    //Process through the list of credential ids if "null" is NOT also selected
+    if (!testMultiSelect(allowCredentialsId.selectedOptions, "null")) {
 
-    if (allowCredentialsId.valueOf() != "") {
+        //Create an empty array for allowCredentials transports
+        if (!testMultiSelect(allowCredentialsTransports.selectedOptions, "null")) {
+            transports = [];
+            //Build a list of transports that we'll just apply to each credentialId so we don't make the options too confusing
+            for (i = 0; i < allowCredentialsTransports.selectedOptions.length; i++) {
+                transports.push(allowCredentialsTransports.selectedOptions[i].value)
+            }
+        }
 
         requestBuilder.allowCredentials = []
-        requestBuilder.allowCredentials[0] = {}
-        requestBuilder.allowCredentials[0].type = 'public-key'
-        requestBuilder.allowCredentials[0].id = allowCredentialsId;
-
-        for (i = 0; i < allowTransports.length; i++) {
-            option = allowTransports[i];
-            if (option.selected == true && option.value != "null (default)") {
-                transports.push(option.value)
-            }
-
-            if (transports.length > 0) {
-                requestBuilder.allowCredentials[0].transports = transports
+        for (i = 0; i < allowCredentialsId.selectedOptions.length; i++) {
+            requestBuilder.allowCredentials[i] = {}
+            requestBuilder.allowCredentials[i].type = 'public-key'
+            requestBuilder.allowCredentials[i].id = allowCredentialsId.selectedOptions[i].value;
+            if (transports) {
+                requestBuilder.allowCredentials[i].transports = transports
             }
         }
     }
+
+
+
+
+
 
     //Encode the request and put it in the query param.
     updatedUrl = buildURL(requestBuilder, "get")

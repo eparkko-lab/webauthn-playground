@@ -35,8 +35,8 @@
                                 <form>
                                         <select style="background-color: #c5c6c7"
                                                 name="doGenerateRandomChallengeGetMenu">
+                                                <option selected>false</option>
                                                 <option>true</option>
-                                                <option>false</option>
                                         </select>
                                 </form>
 
@@ -65,8 +65,12 @@
 
                                 <br>AllowCredential.Id
                                 <form>
-                                        <input type="text" name="allowCredentialsIdGetMenu" value=""
+                                        <select name="allowCredentialsIdGetMenu" multiple
                                                 style="background-color: #c5c6c7">
+                                                <option>aaaaaaaaaaaaaaaaa</option>
+                                                <option>${lastGeneratedId()}</option>
+                                                <option selected>null</option>
+                                        </select>
                                 </form>
 
                                 <br>AllowCredential.Transports
@@ -118,8 +122,8 @@
                                         <form>
                                                 <select name="doGenerateRandomChallengeCreateMenu"
                                                         style="background-color: #c5c6c7">
-                                                        <option>true</option>
-                                                        <option>false</option>
+                                                        <option selected>false</option>
+                                                        <option>true</option> 
                                                 </select>
                                         </form>
 
@@ -144,12 +148,11 @@
                                         <form>
                                                 <select name="authenticatorAttachmentCreateMenu"
                                                         style="background-color: #c5c6c7">
-                                                        <option>platform</option>
                                                         <option selected>cross-platform</option>
+                                                        <option>platform</option>
                                                         <option>null (default)</option>
                                                 </select>
                                         </form>
-
 
                                         <br>Require Resident Key
                                         <form>
@@ -179,7 +182,7 @@
 
                                         <br>Algorithm
                                         <form>
-                                                <input type="text" name="algorithmCreateMenu" value="-7"
+                                                <input type="text" name="algorithmCreateMenu" value="-7" 
                                                         style="background-color: #c5c6c7">
                                         </form>
 
