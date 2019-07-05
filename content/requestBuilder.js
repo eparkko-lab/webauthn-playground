@@ -202,7 +202,7 @@ function setInitialValues() {
 }
 
 function resetURL(url) {
-    window.history.replaceState({}, "   ", url);
+    window.history.replaceState({}, "", url.toString());
 }
 
 
