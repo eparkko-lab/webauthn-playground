@@ -184,11 +184,17 @@ function setInitialValues() {
         decodedwebauthnRequest = atob(webauthnRequestP);
         document.getElementById("getBuilderArea").value = JSON.stringify(JSON.parse(decodedwebauthnRequest), null, 2)
         document.getElementsByName("webAuthnRequestTypeMenu")[0].value = "get"
+        if (decodedwebauthnRequest.allowCredentials[0].id==="${lastGeneratedId()"){
+            decodedwebauthnRequest.allowCredentials[0].id=localStorage.getItem('registeredCredentialId');
+        }
     } else if (requestTypeParam == "create") {
         hide("createOptions")
         decodedwebauthnRequest = atob(webauthnRequestP);
         document.getElementById("createBuilderArea").value = JSON.stringify(JSON.parse(decodedwebauthnRequest), null, 2)
         document.getElementsByName("webAuthnRequestTypeMenu")[0].value = "create"
+        if (decodedwebauthnRequest.excludeCredentials[0].id==="${lastGeneratedId()"){
+            decodedwebauthnRequest.excludeCredentials[0].id=localStorage.getItem('registeredCredentialId');
+        }
     } else {
         //don't do anything with the input params
     }
