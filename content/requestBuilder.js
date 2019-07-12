@@ -22,13 +22,12 @@ function buildGetRequest() {
         rpId: relyingPartyId,
     }
 
-    if (userVerification.valueOf() != "null (default)") {
+    if (userVerification.valueOf() != "null") {
         requestBuilder.userVerification = userVerification;
     }
+    
+    requestBuilder.timeout = parseInt(timeout);
 
-    if (timeout.valueOf() != "null (default)") {
-        requestBuilder.timeout = parseInt(timeout);
-    }
 
     var transports = null;
     //Process through the list of credential ids if "null" is NOT also selected
@@ -53,11 +52,6 @@ function buildGetRequest() {
             }
         }
     }
-
-
-
-
-
 
     //Encode the request and put it in the query param.
     updatedUrl = buildURL(requestBuilder, "get")
@@ -100,12 +94,12 @@ function buildCreateRequest() {
         }
     }
 
-    if (userVerification.valueOf() != "null (default)") {
+    if (userVerification.valueOf() != "null") {
         requestBuilder.authenticatorSelection = {}
         requestBuilder.authenticatorSelection.userVerification = userVerification;
     }
 
-    if (authenticatorAttachment.valueOf() != "null (default)") {
+    if (authenticatorAttachment.valueOf() != "null") {
         if (!requestBuilder.authenticatorSelection) {
             requestBuilder.authenticatorSelection = {}
         }
@@ -113,18 +107,18 @@ function buildCreateRequest() {
     }
 
 
-    if (requireResidentKey.valueOf() != "null (default)") {
+    if (requireResidentKey.valueOf() != "null") {
         if (!requestBuilder.authenticatorSelection) {
             requestBuilder.authenticatorSelection = {}
         }
         requestBuilder.authenticatorSelection.requireResidentKey = JSON.parse(requireResidentKey);
     }
 
-    if (timeout.valueOf() != "null (default)") {
-        requestBuilder.timeout = parseInt(timeout);
-    }
+    
+    requestBuilder.timeout = parseInt(timeout);
+    
 
-    if (attestation.valueOf() != "null (default)") {
+    if (attestation.valueOf() != "null") {
         requestBuilder.attestation = attestation;
     }
     requestBuilder.pubKeyCredParams = [];
