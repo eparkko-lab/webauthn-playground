@@ -37,7 +37,7 @@ function addCredentialIdToOptions(menu, credentialId)
   if (!testMultiSelect(modifyMenu.options, credentialId)){
     wkCredentialId=credentialId.substring(0,4)+"..."+credentialId.substring(credentialId.length-4,credentialId.length);
     modifyMenu.options[modifyMenu.options.length] = new Option(wkCredentialId, credentialId, false, false);
-    modifyMenu.options[1] = new Option("${lastGeneratedId("+wkCredentialId+")}",credentialId, false, false);
+    //modifyMenu.options[1] = new Option("${lastGeneratedId("+wkCredentialId+")}",credentialId, false, false);
   }
 }
 

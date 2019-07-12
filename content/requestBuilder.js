@@ -184,21 +184,33 @@ function setInitialValues() {
         decodedwebauthnRequest = atob(webauthnRequestP);
         document.getElementById("getBuilderArea").value = JSON.stringify(JSON.parse(decodedwebauthnRequest), null, 2)
         document.getElementsByName("webAuthnRequestTypeMenu")[0].value = "get"
-        if (decodedwebauthnRequest.allowCredentials[0].id==="${lastGeneratedId()"){
-            decodedwebauthnRequest.allowCredentials[0].id=localStorage.getItem('registeredCredentialId');
-        }
     } else if (requestTypeParam == "create") {
         hide("createOptions")
         decodedwebauthnRequest = atob(webauthnRequestP);
         document.getElementById("createBuilderArea").value = JSON.stringify(JSON.parse(decodedwebauthnRequest), null, 2)
         document.getElementsByName("webAuthnRequestTypeMenu")[0].value = "create"
-        if (decodedwebauthnRequest.excludeCredentials[0].id==="${lastGeneratedId()"){
-            decodedwebauthnRequest.excludeCredentials[0].id=localStorage.getItem('registeredCredentialId');
-        }
     } else {
         //don't do anything with the input params
     }
 
+}
+
+function replaceMarkers(request){
+    //request = JSON.parse(request);
+    if (request.allowCredentials && 
+        request.allowCredentials[0] &&
+        request.allowCredentials[0].id==="${lastGeneratedId}")
+    {
+        request.allowCredentials[0].id = localStorage.getItem('registeredCredentialId');
+    }
+
+    if (request.excludeCredentials && 
+        request.excludeCredentials[0] &&
+        request.excludeCredentials[0].id==="${lastGeneratedId}")
+    {
+        request.excludeCredentials[0].id = localStorage.getItem('registeredCredentialId');
+    }
+    return request;
 }
 
 function resetURL(url) {

@@ -5,16 +5,17 @@ function getWebAuthnRequest(builderArea) {
 
 function authenticate() {
   webAuthnRequest = getWebAuthnRequest("getBuilderArea");
+  wkWebAuthnRequest = replaceMarkers(webAuthnRequest);
   updatedUrl=buildURL(webAuthnRequest, "get")
   resetURL(updatedUrl);
 
   var webAuthnResponseDiv = document.getElementById("webauthGetResponse");
 
-  getAssertion(webAuthnRequest)
+  getAssertion(wkWebAuthnRequest)
     .then(function (getAssertionResponse) {
       console.log(getAssertionResponse);
       webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(getAssertionResponse), null, 2);
-      writeHistory("get", webAuthnRequest, JSON.stringify(responseToObject(getAssertionResponse)),updatedUrl)
+      writeHistory("get", wkWebAuthnRequest, JSON.stringify(responseToObject(getAssertionResponse)),updatedUrl)
     })
     .catch(error => {
       webAuthnResponseDiv.innerHTML = error;
@@ -55,17 +56,18 @@ function decodePublicKeyCredentialRequestOptions(webAuthnRequest) {
 //-------------------------------------------------------------------
 function register() {
   webAuthnRequest = getWebAuthnRequest("createBuilderArea");
+  wkWebAuthnRequest = replaceMarkers(webAuthnRequest); 
   updatedUrl=buildURL(webAuthnRequest, "create")
   resetURL(updatedUrl)
 
   historyArea = document.getElementById("historyArea")
   var webAuthnResponseDiv = document.getElementById("webauthCreateResponse");
 
-  createCredential(webAuthnRequest)
+  createCredential(wkWebAuthnRequest)
     .then(function (createCredentialResponse) {
       console.log("createCredential:" + createCredentialResponse);
       webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(createCredentialResponse), null, 2);
-      writeHistory("create", webAuthnRequest, JSON.stringify(responseToObject(createCredentialResponse)), updatedUrl)
+      writeHistory("create", wkWebAuthnRequest, JSON.stringify(responseToObject(createCredentialResponse)), updatedUrl)
       localStorage.setItem('registeredCredentialId', createCredentialResponse.id)
       console.log(createCredentialResponse.id)
       addCredentialIdToOptions("excludeCredentialsIdCreateMenu", createCredentialResponse.id)
