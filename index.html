@@ -26,12 +26,16 @@
         <div id="getOptions" style="display:none;background-color:#45a29e;color:#1f2833">
                 <table border="1">
                         <tr style="background-color:#1f2833; color:#45a29e">
-                                <td>1. Pick your WebAuthn Request Options</td>
-                                <td>2. Build your base JSON request. Modify your request. Call the authenticator.</td>
+                                <td>1. Pick your WebAuthn Request Options and Build</td>
+                                <td>2. Modify your request. Call the authenticator.</td>
                                 <td>3. See your WebAuthn Response.</td>
                         </tr>
                         <tr>
+                                
                                 <td valign="top" class="menuHeadings">
+                                        <button onclick="buildGetRequest()">Build Get Request(using the options below)</button>
+                                        <br>
+                                        <br>
                                         Create Random Challenge
                                         <form>
                                                 <select style="background-color: #c5c6c7"
@@ -89,8 +93,8 @@
                                 </td>
 
                                 <td valign="top">
-                                        <button onclick="buildGetRequest()">buildGetRequest</button>
-                                        <button onclick="authenticate()">Authenticate</button>
+                                        
+                                        <button onclick="authenticate()">Call WebAuthn Get(using the request below)</button>
                                         <br>
                                         <br>Here is your webauthn request
                                         <br>
@@ -118,12 +122,15 @@
         <div id="createOptions" style="display:none;background-color:#45a29e;color:#1f2833">
                 <table border="1">
                         <tr style="background-color:#1f2833; color:#45a29e">
-                                <td>1. Pick your WebAuthn Request Options</td>
-                                <td>2. Build your base JSON request. Modify your request. Call the authenticator.</td>
+                                <td>1. Pick your WebAuthn Request Options and Build</td>
+                                <td>2. Modify your request. Call the authenticator.</td>
                                 <td>3. See your WebAuthn Response.</td>
                         </tr>
                         <tr>
                                 <td valign="top" class="menuHeadings">
+                                        <button onclick="buildCreateRequest()">Build Create Request(using the options below)</button>
+                                        <br>
+                                        <br>
                                         Create Random Challenge
                                         <form>
                                                 <select name="doGenerateRandomChallengeCreateMenu"
@@ -236,8 +243,8 @@
                                 </td>
 
                                 <td valign="top">
-                                        <button onclick="buildCreateRequest()">buildCreateRequest</button>
-                                        <button onclick="register()">Register</button>
+                                        
+                                        <button onclick="register()">Call WebAuthn Create (using the request below)</button>
                                         <br>
                                         <br>Here is your webauthn request
                                         <br>

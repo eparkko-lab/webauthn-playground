@@ -28,7 +28,6 @@ function buildGetRequest() {
     
     requestBuilder.timeout = parseInt(timeout);
 
-
     var transports = null;
     //Process through the list of credential ids if "null" is NOT also selected
     if (!testMultiSelect(allowCredentialsId.selectedOptions, "null")) {
@@ -197,20 +196,22 @@ function setInitialValues() {
 
 function replaceMarkers(request){
     //request = JSON.parse(request);
-    if (request.allowCredentials && 
-        request.allowCredentials[0] &&
-        request.allowCredentials[0].id==="${lastGeneratedId}")
+    var builtRequest = JSON.parse(request);
+
+    if (builtRequest.allowCredentials && 
+        builtRequest.allowCredentials[0] &&
+        builtRequest.allowCredentials[0].id==="${lastGeneratedId}")
     {
-        request.allowCredentials[0].id = localStorage.getItem('registeredCredentialId');
+        builtRequest.allowCredentials[0].id = localStorage.getItem('registeredCredentialId');
     }
 
-    if (request.excludeCredentials && 
-        request.excludeCredentials[0] &&
-        request.excludeCredentials[0].id==="${lastGeneratedId}")
+    if (builtRequest.excludeCredentials && 
+        builtRequest.excludeCredentials[0] &&
+        builtRequest.excludeCredentials[0].id==="${lastGeneratedId}")
     {
-        request.excludeCredentials[0].id = localStorage.getItem('registeredCredentialId');
+        builtRequest.excludeCredentials[0].id = localStorage.getItem('registeredCredentialId');
     }
-    return request;
+    return builtRequest;
 }
 
 function resetURL(url) {

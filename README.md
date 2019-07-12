@@ -1,7 +1,18 @@
 # webauthn-playground
-Used for testing the different flags for navigator.credentials.get and .create
+You can use the tool to help you build and then manipulate FIDO2 WebAuthn requests.  It will perform both get and create commands against roaming and platform authenticators (ie, security keys and TPMs).  All the work is being done in your local browser and does not communicate with any backend systems.  
 
-# Getting Started
+## Features
+1. The tool helps you building a legitimate request.  Once you build a request with the builder you can then manipulate it even further before you call the webauthn api with a create or get. 
+1. You can save off requests since the tool will update the url with the webauthn request that you last submitted.  This will allow you to save off and replay requests in different browsers to see how each performs.  
+1. The tool will save off the previously generated credentialId in the browser local storage.  This will allow you to save off a previous get request that isn't dependant on an existing credentialId but just generates a request using a credentialId that is in your browser's local storage. 
+1. The history of commands is saved off in a history window.   As of now the history does not work across multiple tabs in a browser or after refreshing the page.
+
+
+## Cautions
+1. If you are using a security key that has legitimate credentials on it beware of generating residentKeys on your device. Resident Keys can be generated using the "Require Resident Key" in the request builder.  If you generate too many residentKeys on any given security key you may need to reset the device and lose legitimate credentials on the device. 
+1. Not all browsers and platforms have the same level of support for webauthn.  You may notice that residentKeys are not supported on some browsers or other aspects with attestation behave differently. This tool actually makes it easy to see how one browser behaves relative to another browser.
+
+# Installing and using locally
 This tool can be used to help understand how the different parameters on webauthn API requests behave.
 To install and run this locally.
 

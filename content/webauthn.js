@@ -5,10 +5,10 @@ function getWebAuthnRequest(builderArea) {
 
 function authenticate() {
   webAuthnRequest = getWebAuthnRequest("getBuilderArea");
-  wkWebAuthnRequest = replaceMarkers(webAuthnRequest);
+  wkWebAuthnRequest = replaceMarkers(JSON.stringify(webAuthnRequest));
   updatedUrl=buildURL(webAuthnRequest, "get")
   resetURL(updatedUrl);
-
+  
   var webAuthnResponseDiv = document.getElementById("webauthGetResponse");
 
   getAssertion(wkWebAuthnRequest)
@@ -56,7 +56,7 @@ function decodePublicKeyCredentialRequestOptions(webAuthnRequest) {
 //-------------------------------------------------------------------
 function register() {
   webAuthnRequest = getWebAuthnRequest("createBuilderArea");
-  wkWebAuthnRequest = replaceMarkers(webAuthnRequest); 
+  wkWebAuthnRequest = replaceMarkers(JSON.stringify(webAuthnRequest)); 
   updatedUrl=buildURL(webAuthnRequest, "create")
   resetURL(updatedUrl)
 
