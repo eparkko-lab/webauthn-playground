@@ -1,5 +1,5 @@
 # webauthn-playground
-You can use the tool to help you build and then manipulate FIDO2 WebAuthn requests.  It will perform both get and create commands against roaming and platform authenticators (ie, security keys and TPMs).  All the work is being done in your local browser and does not communicate with any backend systems.  
+You can use the tool to help you build and then manipulate FIDO2 WebAuthn requests.  It will perform both get and create commands against roaming and platform authenticators (ie, security keys and TPMs).  All the work is being done in your local browser and does not communicate with any backend systems.  The webauthn-playground tool is deployed at: https://eparkko-lab.github.io/webauthn-playground/ or you can install and run on your local machine. 
 
 ## Features
 1. The tool helps you building a legitimate request.  Once you build a request with the builder you can then manipulate it even further before you call the webauthn api with a create or get. 
