@@ -66,6 +66,9 @@ function register() {
   createCredential(wkWebAuthnRequest)
     .then(function (createCredentialResponse) {
       console.log("createCredential:" + createCredentialResponse);
+      //console.log(JSON.stringify(createCredentialResponse.response.attestationObject));
+      //decodedAttestation = decodeAttestationObj(createCredentialResponse.response.attestationObject);
+      //createCredentialResponse.response.attestationObject = JSON.parse(decodedAttestation);
       webAuthnResponseDiv.innerHTML = JSON.stringify(responseToObject(createCredentialResponse), null, 2);
       writeHistory("create", wkWebAuthnRequest, JSON.stringify(responseToObject(createCredentialResponse)), updatedUrl)
       localStorage.setItem('registeredCredentialId', createCredentialResponse.id)
@@ -134,6 +137,10 @@ function decodePublicKeyCredentialCreationOptions(request) {
 
 
 //--------------------------------------------------------------
+function decodeAttestationObj(attestationObject) {
+  return attestationObjectDecoded;
+}
+
 function extend(obj, more) {
   return Object.assign({}, obj, more);
 }
@@ -160,7 +167,7 @@ function responseToObject(response) {
 
     if (response.response.attestationObject) {
       return {
-        type: response.type,
+        ccccccktnfuvknidngijjkhjfutype: response.type,
         id: response.id,
         response: {
           attestationObject: fromByteArray(response.response.attestationObject),

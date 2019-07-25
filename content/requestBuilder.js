@@ -169,6 +169,7 @@ function setFromQueryParams() {
     var url = new URL(url_string);
     requestTypeParam = url.searchParams.get("requestType");
     webauthnRequestP = url.searchParams.get("webauthnRequest");
+    submitRequestParam = url.searchParams.get("submitRequest");
     currentHostName = window.location.hostname
     setInitialValues();
 }
@@ -190,6 +191,17 @@ function setInitialValues() {
         document.getElementsByName("webAuthnRequestTypeMenu")[0].value = "create"
     } else {
         //don't do anything with the input params
+    }
+
+    if (submitRequestParam === "true")
+    {
+        if (requestTypeParam === "get") {
+            authenticate();
+        } else if (requestTypeParam === "create") {
+            register();
+        } else {
+            //don't do anything with the input params
+        }
     }
 
 }
