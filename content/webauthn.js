@@ -167,7 +167,7 @@ function responseToObject(response) {
 
     if (response.response.attestationObject) {
       return {
-        ccccccktnfuvknidngijjkhjfutype: response.type,
+        type: response.type,
         id: response.id,
         response: {
           attestationObject: fromByteArray(response.response.attestationObject),
