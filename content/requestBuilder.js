@@ -15,7 +15,7 @@ function buildGetRequest() {
         theChallenge = btoa(Math.random()).substr(0, 21) + btoa(Math.random()).substr(0, 21)
     } else {
         //Just use a recognizable static string
-        theChallenge = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        theChallenge = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     }
     requestBuilder = {
         challenge: theChallenge,
@@ -82,7 +82,7 @@ function buildCreateRequest() {
         theChallenge = btoa(Math.random()).substr(0, 21) + btoa(Math.random()).substr(0, 21)
     } else {
         //Just use a recognizable static string
-        theChallenge = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        theChallenge = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     }
 
     requestBuilder = {
@@ -206,25 +206,41 @@ function setInitialValues() {
 
 }
 
-function replaceMarkers(request){
+function replaceMarkers(request) {
     //request = JSON.parse(request);
-    var builtRequest = JSON.parse(request);
-
-    if (builtRequest.allowCredentials && 
-        builtRequest.allowCredentials[0] &&
-        builtRequest.allowCredentials[0].id==="${lastGeneratedId}")
-    {
-        builtRequest.allowCredentials[0].id = localStorage.getItem('registeredCredentialId');
+    var builtRequest = JSON.parse(request);    
+    if (builtRequest.allowCredentials &&
+      builtRequest.allowCredentials[0] &&
+      builtRequest.allowCredentials[0].id === "${lastGeneratedId}") {
+      builtRequest.allowCredentials[0].id = localStorage.getItem('registeredCredentialId');
     }
-
-    if (builtRequest.excludeCredentials && 
-        builtRequest.excludeCredentials[0] &&
-        builtRequest.excludeCredentials[0].id==="${lastGeneratedId}")
-    {
-        builtRequest.excludeCredentials[0].id = localStorage.getItem('registeredCredentialId');
+  
+    if (builtRequest.excludeCredentials &&
+      builtRequest.excludeCredentials[0] &&
+      builtRequest.excludeCredentials[0].id === "${lastGeneratedId}") {
+      builtRequest.excludeCredentials[0].id = localStorage.getItem('registeredCredentialId');
     }
+  
+    var origin = location.origin.split('://')[1];
+    if (origin.includes(':')) {
+      origin = origin.split(':')[0]
+    }
+    console.log(origin);
+    if (builtRequest.rp && builtRequest.rp.id === "${origin}") {
+  
+      builtRequest.rp.id = origin
+    }
+  
+    if (builtRequest.rp && builtRequest.rp.name === "${origin}") {
+      builtRequest.rp.name = "f2bsr-" + origin
+    }
+  
+    if (builtRequest.rpId === "${origin}") {
+      builtRequest.rpId = origin
+    }
+  
     return builtRequest;
-}
+  }
 
 function resetURL(url) {
     window.history.replaceState({}, "", url.toString());
